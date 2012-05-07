@@ -1,0 +1,4 @@
+var/www/duvenx
+var/www/duvenx/log
+var/www/duvenx/bin
+var/www/duvenx/devices

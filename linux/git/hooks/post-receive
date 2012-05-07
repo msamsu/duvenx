@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# An example hook script for the "post-receive" event.
+#
+# The "post-receive" script is run after receive-pack has accepted a pack
+# and the repository has been updated.  It is passed arguments in through
+# stdin in the form
+#  <oldrev> <newrev> <refname>
+# For example:
+#  aa453216d1b3e49e7f6f98441fa56946ddcd6a20 68f7abf4e6f922807889f52bc043ecd31b79f814 refs/heads/master
+#
+# see contrib/hooks/ for a sample, or uncomment the next line and
+# rename the file to "post-receive".
+
+#. /usr/share/doc/git-core/contrib/hooks/post-receive-email
+
+# poprve
+mkdir -p /var/www/duvenx/log
+chown nobody.nogroup /var/www/duvenx/log
+chmod 777 /var/www/duvenx/log
+
+echo '============================================================================================'
+echo `date`
+cd /var/devel/duvenx/web/ && sudo git pull
+cp -vf /var/devel/duvenx/linux/git/hooks/post-receive /srv/gitosis/repositories/duvenx.git/hooks/
+chmod +x /srv/gitosis/repositories/duvenx.git/hooks/post-receive
+cd /var/devel/duvenx/ && sudo git submodule update
+cd /var/devel/duvenx/web/ && sudo make pkginst
+cd /var/devel/duvenx/web/ && sudo make pkgclean
+

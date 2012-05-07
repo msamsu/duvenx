@@ -1,0 +1,106 @@
+#! /bin/sh
+
+set -e
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DESC="uwsgi@nginx daemon"
+
+UWSGI_DAEMON=/var/www/duvenx/bin/duvenx-uwsgi
+UWSGI_CONF=/var/www/duvenx/conf/uwsgi.ini
+UWSGI_PID=/var/run/duvenx-uwsgi.pid
+
+NGINX_DAEMON=/var/www/duvenx/bin/duvenx-nginx
+NGINX_CONF=/var/www/duvenx/conf/nginx.conf
+# Configuration directive "pid" in config file should be disabled (off-commented).
+# Otherwise daemon start falls on "directive is duplicate" error.
+NGINX_PID=/var/run/duvenx-nginx.pid
+
+# Gracefully exit if the package has been removed.
+test -x $NGINX_DAEMON || exit 0
+test -x $UWSGI_DAEMON || exit 0
+
+d_start() {
+        if [ -f $UWSGI_PID ]; then
+                echo "uwsgi is already running"
+        else
+                $UWSGI_DAEMON --ini $UWSGI_CONF --pidfile $UWSGI_PID
+                sleep 2
+                if [ ! -f $UWSGI_PID ]; then
+                        echo "uwsgi didn't start!!!!!"
+                fi
+        fi
+        if [ -f $NGINX_PID ]; then
+                echo "nginx is already running"
+        else
+                $NGINX_DAEMON -c $NGINX_CONF -g "pid $NGINX_PID;" || echo "nginx didn't start!!!!!!"
+        fi
+}
+
+d_stop() {
+        if [ -f $NGINX_PID ]; then
+                kill -QUIT `cat $NGINX_PID` || echo "cannot close nginx"
+                sleep 1
+                if [ -f $NGINX_PID ]; then
+                        kill -KILL `cat $NGINX_PID` || echo "cannot kill nginx!!!"
+                        rm -f $NGINX_PID
+                fi
+        else
+                echo "nginx is not running"
+        fi
+
+        if [ -f $UWSGI_PID ]; then
+                kill -QUIT `cat $UWSGI_PID` || echo "cannot close uwsgi"
+                sleep 1
+                if [ -f $UWSGI_PID ]; then
+                        kill -KILL `cat $UWSGI_PID` || echo "cannot kill uwsgi!!!"
+                        rm -f $UWSGI_PID
+                fi
+        else
+                echo "uwsgi is not running"
+        fi
+}
+
+d_reload() {
+	if [ -f $UWSGI_PID ]; then
+        	kill -HUP `cat $UWSGI_PID` || echo "can't reload uwsgi"
+        else
+                echo "uwsgi is not running"
+        fi
+        if [ -f $NGINX_PID ]; then
+	        kill -HUP `cat $NGINX_PID` || echo "can't reload nginx"
+        else
+                echo "nginx is not running"
+        fi
+}
+
+case "$1" in
+  start)
+        echo "Starting $DESC..."
+        d_start
+        echo " Done"
+        ;;
+  stop)
+        echo "Stopping $DESC..."
+        d_stop
+        echo " Done"
+        ;;
+  reload)
+        echo "Reloading $DESC configuration..."
+        d_reload
+        echo " Done"
+        ;;
+  restart)
+        echo "Restarting $DESC..."
+        d_stop
+        sleep 1
+        d_start
+        echo " Done"
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|reload|restart}" >&2
+        exit 3
+        ;;
+esac
+
+exit 0
+

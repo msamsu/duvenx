@@ -1,0 +1,5 @@
+var/www/uwsgi-compiled/bin/uwsgi var/www/duvenx/bin/duvenx-uwsgi
+var/www/nginx-compiled/bin/nginx var/www/duvenx/bin/duvenx-nginx
+var/www/duvenx/duvenx/groo/static var/www/duvenx/duvenx/static/groo
+usr/local/lib/python2.6/dist-packages/django/contrib/admin/media var/www/duvenx/duvenx/static/admin
+

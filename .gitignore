@@ -1,0 +1,4 @@
+venv
+.idea
+web/duvenx/settings_local.py
+web/duvenx/groo/migrations

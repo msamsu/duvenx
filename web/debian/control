@@ -1,0 +1,11 @@
+Source: duvenx
+Section: unknown
+Priority: extra
+Maintainer: lemr <lemrovo@lemrovo.cz>
+Build-Depends: debhelper (>= 7)
+Standards-Version: 3.7.3
+
+Package: duvenx
+Architecture: any
+Depends: uwsgi-compiled, nginx-compiled, libmysqlclient-dev
+Description: Django, uWSGI, Virtual environment, NGINX Hello world! package

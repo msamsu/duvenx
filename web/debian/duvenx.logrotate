@@ -1,0 +1,9 @@
+/var/www/duvenx/log/*log {
+	daily
+	rotate 10
+	compress
+	missingok
+	notifempty
+	dateext
+	copytruncate
+}
