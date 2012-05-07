@@ -1,3 +1,3 @@
 #!/bin/bash
 
-venv/bin/python web/rmsbackup/manage.py $@ --settings=rmsbackup.settings_local
+venv/bin/python web/duvenx/manage.py $@ --settings=duvenx.settings_local

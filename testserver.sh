@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./manage_local runserver
+./manage_local.sh runserver

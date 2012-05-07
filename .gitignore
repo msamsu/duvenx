@@ -1,4 +1,6 @@
 venv
 .idea
+*.pyc
 web/duvenx/settings_local.py
 web/duvenx/groo/migrations
+web/devices

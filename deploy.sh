@@ -11,9 +11,11 @@ NEW_PROJECT_DIR=$TEMPLATE_DIR/../$PROJECT_NAME
 
 mkdir $NEW_PROJECT_DIR
 cd $NEW_PROJECT_DIR
+NEW_PROJECT_DIR=`pwd`
 
 # template init
 cp -R $TEMPLATE_DIR/* ./
+cp $TEMPLATE_DIR/.gitignore ./
 git init
 git add .
 git ci -m 'template files'
@@ -27,8 +29,10 @@ git ci -m "project $PROJECT_NAME init"
 
 # local settings
 cp web/$PROJECT_NAME/settings_local.tpl.py web/$PROJECT_NAME/settings_local.py
-find . -name "web/$PROJECT_NAME/settings_local.py" -exec sed -i "s/local_project_root/$NEW_PROJECT_DIR/g" {} \;
-mkdir -p $NEW_PROJECT_DIR/devices
+NEW_PROJECT_DIR_ESCAPED=$(echo "$NEW_PROJECT_DIR" | sed 's/\//\\\//g')
+find . -name settings_local.py -exec sed -i "s/local_project_root/$NEW_PROJECT_DIR_ESCAPED/g" {} \;
+mkdir -p $NEW_PROJECT_DIR/web/devices
+touch $NEW_PROJECT_DIR/web/devices/default.sqlite
 
 # venv
 ./installvenv.sh
@@ -37,4 +41,4 @@ mkdir -p $NEW_PROJECT_DIR/devices
 ./syncdb.sh
 
 # cleanup
-rm bootstrap_project.sh
+rm deploy.sh
