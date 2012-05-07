@@ -2,21 +2,21 @@
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/var/www/duvenx/devices/default.sqlite'
+        'NAME': 'local_project_root/devices/default.sqlite'
     }
 }
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
-    '/var/www/duvenx/duvenx/templates'
+    'local_project_root/web/duvenx/templates'
 )
 
 INSTALLED_APPS = (
     'django_extensions',
 )
 
-STATIC_DOC_ROOT = '/var/www/duvenx/duvenx/static'
+STATIC_DOC_ROOT = 'local_project_root/web/duvenx/static'
 
 MIDDLEWARE_CLASSES_BEFORE = (
     'firepy.django.middleware.FirePHPMiddleware',
