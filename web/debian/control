@@ -7,5 +7,5 @@ Standards-Version: 3.7.3
 
 Package: duvenx
 Architecture: any
-Depends: uwsgi-compiled, nginx-compiled, libmysqlclient-dev
+Depends: uwsgi-compiled, nginx-compiled, libmysqlclient-dev, python-virtualenv
 Description: Django, uWSGI, Virtual environment, NGINX Hello world! package

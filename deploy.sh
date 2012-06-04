@@ -17,14 +17,14 @@ cp -R $TEMPLATE_DIR/* ./
 cp $TEMPLATE_DIR/.gitignore ./
 git init
 git add .
-git ci -m 'template files'
+git commit -m 'template files'
 
 # project init
 git mv web/duvenx web/$PROJECT_NAME
 git mv web/debian/duvenx.logrotate web/debian/$PROJECT_NAME.logrotate
 find . -name "*" -exec sed -i "s/duvenx/$PROJECT_NAME/g" {} \;
 git add .
-git ci -m "project $PROJECT_NAME init"
+git commit -m "project $PROJECT_NAME init"
 
 # local settings
 cp web/$PROJECT_NAME/settings_local.tpl.py web/$PROJECT_NAME/settings_local.py
@@ -40,4 +40,5 @@ touch $NEW_PROJECT_DIR/web/devices/default.sqlite
 ./syncdb.sh
 
 # cleanup
-rm deploy.sh
+git rm deploy.sh
+git commit -m "cleanup"
