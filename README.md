@@ -25,7 +25,7 @@ Everything else is in .deb package control so it will ask you to install some de
 Local use
 ---------
 
-To start your new development project derived from this template do:
+To start your new development project called project_name derived from this template do:
 
 ```bash
 cd to/devel/dir
@@ -33,14 +33,9 @@ git clone https://github.com/lemr/duvenx.git
 ./duvenx/deploy.sh project_name
 ```
 
-This will prepare new project called project_name, it also creates its local git repo.
-
-To install virtual environment then edit and execute:
-
-```bash
-cd project_name
-./installvenv.sh
-```
+* It installs virtual environment
+* Creates a configure local sqlite db and makes first syncdb
+* It also creates its local git repo
 
 Now you will be able to use local development tools
 
@@ -48,8 +43,7 @@ Now you will be able to use local development tools
 * syncdb.sh
 * testserver.sh
 
-manage_local.sh is proxy to django manage.py with using local settings.
-Check these files out.
+manage_local.sh is proxy to django manage.py with using local settings. Other of those files uses it.
 
 
 Use on production
@@ -67,9 +61,7 @@ make pkginst && make pkgclean
 
 Use "make pkginst" in case you want to also install, otherwise "make pkgbuild" to just get the .deb package
 
-### Notes
-
-* This takes care of virtual environment in postinst.
+* This takes care of virtual environment in postinst
 * This can be also automatized by postcommit hook. See project_name/linux/git/hooks/post-receive
 * Installs all to /var/www/project_name
 * Creates and starts init scripts
